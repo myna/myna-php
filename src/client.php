@@ -1,15 +1,15 @@
-<?php namespace myna;
+<?php namespace Myna;
 
 class Client {
 
     public function __construct($options = array()) {
-        $this->uuid = isset($options['uuid']) ? $options['uuid'] : NULL;
-        $this->apiKey = isset($options['apiKey']) ? $options['apiKey'] : Myna.error("Myna.Client constructor", "no apiKey in options", options);
-        $this->apiRoot = isset($options['apiRoot']) ? $options['apiRoot'] : "//api.mynaweb.com";
-        $this->settings = isset($options['settings']) ? $options['settings'] : array();
+        $this->uuid     = Arr::get($options, 'uuid');
+        $this->apiKey   = Arr::get_or_error($options, 'apiKey', "Myna::Client constructor");
+        $this->apiRoot  = Arr::get($options, 'apiRoot', '//api.mynaweb.com');
+        $this->settings = Arr::get($options, 'settings', array());
 
         $experiments = array();
-        $expts = isset($options['experiments']) ? $options['experiments'] : array()
+        $expts = Arr::get($options, 'experiments', array());
         foreach ($expts as $expt) {
             $experiments[$expt.id] = $expt
         }
