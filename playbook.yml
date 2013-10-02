@@ -1,0 +1,8 @@
+---
+- hosts: all
+  sudo: yes
+  tasks:
+    - name: update apt
+      apt: update_cache=yes
+    - name: install PHP 5
+      apt: package=php5-cli state=present
