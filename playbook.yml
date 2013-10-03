@@ -4,5 +4,13 @@
   tasks:
     - name: update apt
       apt: update_cache=yes
+    - name: install Git
+      apt: package=git state=present
     - name: install PHP 5
       apt: package=php5-cli state=present
+    - name: install curl
+      apt: package=curl state=present
+    - name: install Composer
+      shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/vagrant
+    - name: install project dependencies
+      shell: chdir=/vagrant ./composer.phar install
