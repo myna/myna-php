@@ -15,25 +15,35 @@ class CookieSession implements Session {
     public function __construct($uuid, $cookie_base_name = "Myna", $cookie_life = 31536000) {
         $this->uuid = $uuid;
         $this->cookie_base_name = $cookie_base_name;
-        $this->cookie_life = $cookie_life
+        $this->cookie_life = $cookie_life;
     }
 
     public function get() {
-        $_COOKIE
+        $variant = false;
+
+        if(isset($_COOKIE[$this->cookieName()])) {
+            $variant = $_COOKIE[$this->cookieName()];
+            $this->variant = $variant;
+
+        } elseif(isset($this->variant)) {
+            $variant = $this->variant;
+        }
+
+        return $variant;
     }
 
     public function put($variant) {
         // Save the variant locally in case we want to access it
         // before we send the response (when it won't be in $_COOKIE)
-        $this->variant = $variant
-        setCookie($this->cookieName(), $variant, time() + $this->cookie_life)
+        $this->variant = $variant;
+        setCookie($this->cookieName(), $variant, time() + $this->cookie_life);
     }
 
     /**
      * @return String The name of the cookie used by this CookieSession.
      */
     public function cookieName() {
-        return "$this->cookie_base_name-$this->uuid"
+        return "$this->cookie_base_name-$this->uuid";
     }
 
 }

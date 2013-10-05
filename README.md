@@ -17,3 +17,11 @@ To run the tests:
 - `vagrant ssh`
 - `cd /vagrant`
 - `./bin/phpspec run`
+
+### Troubleshooting
+
+Vagrant is not very reliable. Different versions of Vagrant and Virtualbox work together more or less well. If you cannot run the ansible deployment successfully, the following command will do so manually. You must have the VM running first (via `vagrant up`).
+
+`ansible-playbook --inventory-file ./vagrant_ansible_inventory_default playbook.yml -u vagrant -k`
+
+The password is `vagrant`.
