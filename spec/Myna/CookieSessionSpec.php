@@ -17,6 +17,10 @@ class CookieSessionSpec extends ObjectBehavior
             unset($_COOKIE[$this->cookieName()->getWrappedObject()]);
     }
 
+    function it_should_be_a_session() {
+        $this->shouldBeAnInstanceOf('Myna\Session');
+    }
+
     function it_should_construct_correct_cookie_name() {
         $this->cookieName()->shouldBe("Myna-347cbe53-ad85-423b-9b88-765b99571e0b");
         $this->cookieName()->shouldBeString();
