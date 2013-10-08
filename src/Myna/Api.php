@@ -1,12 +1,12 @@
-<?php
+<?php namespace Myna;
 
 /**
  * Interacts with the Myna API.
  */
-class API {
+class Api {
 
     /**
-     * Construct an API given the UUID of a deployment, and an API root.
+     * Construct an Api given the UUID of a deployment, and an API root.
      *
      * @param String deploymentUuid. The UUID of your deployment.
      * @param String deploymentRoot. The root of the deployment API; defaults to //deploy.mynaweb.com
@@ -25,7 +25,7 @@ class API {
      */
     public function getDeployment() {
         $url = "http:{$this->deploymentRoot}/v2/deployment/{$this->deploymentUuid}/myna.json";
-        json_decode(file_get_contents($url));
+        return $this->parse_response(file_get_contents($url));
     }
 
     /**
@@ -36,7 +36,7 @@ class API {
      */
     public function view($experimentUuid, $variant) {
         $url = "http:{$this->apiRoot}/v2/experiment/{$experimentUuid}/record?variant={$variant}";
-        json_decode(file_get_contents($url));
+        return $this->parse_response(file_get_contents($url));
     }
 
     /**
@@ -48,6 +48,7 @@ class API {
      */
     public function reward($experimentUuid, $variant, $amount = 1.0) {
         $url = "http:{$this->apiRoot}/v2/experiment/{$experimentUuid}/record?variant={$variant}&amount={$amount}";
+        return $this->parse_response(file_get_contents($url));
     }
 
 
@@ -59,12 +60,12 @@ class API {
      */
     function parse_response($data) {
         $json = json_decode($data, true);
-        if(isnull($json))
-            Myna::error("Myna\API.parse_response", "Response from server is not JSON.", $data);
+        if(is_null($json))
+            Myna::error("Myna\Api.parse_response", "Response from server is not JSON.", $data);
 
         switch ($json['typename']) {
         case 'problem':
-            return Myna::error("Myna\API.parse_response", "Server responded with error", $json['messages']);
+            return Myna::error("Myna\Api.parse_response", "Server responded with error", $json['messages']);
         case 'experiment':
             return \Myna\Data\Experiment::fromArray($json);
         case 'deployment':

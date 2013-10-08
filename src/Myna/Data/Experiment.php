@@ -6,17 +6,19 @@ class Experiment {
     * Construct an Experiment from an Array of data
     */
   public static function fromArray($options) {
-    $uuid     = Arr::get_or_error($options, 'uuid', "Myna::Experiment.constructor");
-    $id       = Arr::get_or_error($options, 'id', "Myna::Experiment.constructor");
-    $settings = Settings::fromArray(Arr::get($options, 'settings', array()));
-    $variants = array();
+      $name = "\Myna\Data\Experiment::fromArray";
 
-    $vars = Arr::get($options, 'variants', array());
-    foreach($vars as $data) {
-      $variants[$data['id']] = Variant::fromArray($data);
-    }
+      $uuid     = \Myna\Arr::get_or_error($options, 'uuid', $name);
+      $id       = \Myna\Arr::get_or_error($options, 'id', $name);
+      $settings = Settings::fromArray(\Myna\Arr::get($options, 'settings', array()));
+      $variants = array();
 
-    return new Experiment($uuid, $id, $settings, $variants);
+      $vars = \Myna\Arr::get($options, 'variants', array());
+      foreach($vars as $data) {
+          $variants[$data['id']] = Variant::fromArray($data);
+      }
+
+      return new Experiment($uuid, $id, $settings, $variants);
   }
 
   /**
