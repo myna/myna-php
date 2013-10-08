@@ -3,9 +3,7 @@
 namespace Myna;
 
 /**
- * A forgetful session doesn't remember anything. Use it when you want
- * to display a different variant to the same user everytime they
- * visit a page under test.
+ * A forgetful session doesn't remember anything. Use it for testing.
  */
 class ForgetfulSession implements Session
 {
