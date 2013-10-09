@@ -1,0 +1,8 @@
+#!/usr/bin/php
+<?php
+require_once '/usr/local/boris/lib/autoload.php';
+require_once './vendor/autoload.php';
+
+$boris = new \Boris\Boris('myna> ');
+$boris->start();
+?>

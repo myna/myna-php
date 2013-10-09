@@ -11,6 +11,10 @@
     - name: install curl
       apt: package=curl state=present
     - name: install Composer
-      shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/vagrant
+      shell: creates=/vagrant/composer.phar curl -sS https://getcomposer.org/installer | php -- --install-dir=/vagrant
     - name: install project dependencies
       shell: chdir=/vagrant ./composer.phar install
+    - name: get Boris (better PHP REPL)
+      git: repo=git://github.com/d11wtq/boris.git dest=/usr/local/boris
+    - name: install Boris
+      file: path=/usr/local/bin/boris state=link src=/usr/local/boris/bin/boris mode=0755
