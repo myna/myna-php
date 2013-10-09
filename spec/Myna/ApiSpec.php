@@ -26,4 +26,12 @@ class ApiSpec extends ObjectBehavior
         $deployment->latest->shouldBe('//api.mynaweb.com/v2/deployment/ae15f7c0-df1f-11e2-bfc7-7c6d628b25f7/myna.json');
         $deployment->experiments->shouldHaveCount(10);
     }
+
+    function it_should_get_an_updated_experiment_on_view() {
+        $deployment = $this->getDeployment()->getWrappedObject();
+        $experiment = $deployment->experiments[0];
+        $updated = $this->view($experiment->uuid, $experiment->variants['default']->id);
+        $updated->shouldHaveType('\Myna\Data\Experiment');
+        $updated->uuid->shouldBe($experiment->uuid);
+    }
 }

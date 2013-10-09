@@ -32,7 +32,7 @@ class Api {
      * Record a view of a variant.
      *
      * @param String experimentUuid. The UUID of the experiment
-     * @param String variant. The name of the variant that was viewed.
+     * @param String variant. The ID of the variant that was viewed.
      */
     public function view($experimentUuid, $variant) {
         $url = "http:{$this->apiRoot}/v2/experiment/{$experimentUuid}/record?variant={$variant}";
