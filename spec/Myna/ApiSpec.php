@@ -11,9 +11,7 @@ class ApiSpec extends ObjectBehavior
     public $deploymentUuid = 'ae15f7c0-df1f-11e2-bfc7-7c6d628b25f7';
 
     function let() {
-        $deploymentRoot = '//api.mynaweb.com';
-        $apiRoot = '//api.mynaweb.com';
-        $this->beConstructedWith($this->deploymentUuid, $apiRoot, $deploymentRoot);
+        $this->beConstructedWith($this->deploymentUuid);
     }
 
     function it_is_initializable()
@@ -25,5 +23,7 @@ class ApiSpec extends ObjectBehavior
         $deployment = $this->getDeployment();
         $deployment->shouldHaveType('\Myna\Data\Deployment');
         $deployment->uuid->shouldBe($this->deploymentUuid);
+        $deployment->latest->shouldBe('//api.mynaweb.com/v2/deployment/ae15f7c0-df1f-11e2-bfc7-7c6d628b25f7/myna.json');
+        $deployment->experiments->shouldHaveCount(10);
     }
 }

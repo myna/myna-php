@@ -24,7 +24,7 @@ class Api {
      * @return Array An Array mapping String UUID to \Myna\
      */
     public function getDeployment() {
-        $url = "http:{$this->deploymentRoot}/v2/deployment/{$this->deploymentUuid}/myna.json";
+        $url = "http:{$this->deploymentRoot}/{$this->deploymentUuid}/myna.json";
         return $this->parse_response(file_get_contents($url));
     }
 
