@@ -8,11 +8,11 @@ namespace Myna;
 class ForgetfulSession implements Session
 {
 
-    public function get() {
+    public function get($key) {
         return false;
     }
 
-    public function put($variant) {
+    public function put($key, $variant) {
         // Do nothing
     }
 

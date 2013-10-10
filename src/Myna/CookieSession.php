@@ -1,9 +1,30 @@
 <?php namespace Myna;
 
 /**
- * A Session that saves the Variant name into a cookie.
+ * A Session that saves information in a cookie. Keys and values are URL encoded.
  */
 class CookieSession implements Session {
+
+    /** Splits key and value */
+    public static $kvDelimiter = '=';
+    /** Splits key/value pairs */
+    public static $pairDelimiter = ':';
+
+    /** Split a string into an Array using $kvDelimiter and $pairDelimiter */
+    public static function stringToArray($string) {
+        $result = array();
+        $kvs = explode($pairDelimiter, $string);
+
+        foreach($kvs as $kv) {
+            $k_v = explode($kvDelimiter, $kv);
+            $key = url_decode($k_v[0]);
+            $value = url_decode($k_v[1]);
+            $result[$key] = $value;
+        }
+
+        return $result;
+    }
+
 
     /**
      * Construct a CookieSession.
@@ -18,7 +39,7 @@ class CookieSession implements Session {
         $this->cookie_life = $cookie_life;
     }
 
-    public function get() {
+    public function get($key) {
         $variant = false;
 
         if(isset($_COOKIE[$this->cookieName()])) {
@@ -32,7 +53,10 @@ class CookieSession implements Session {
         return $variant;
     }
 
-    public function put($variant) {
+    public function put($key, $variant) {
+        $encoded_key = urlencode($key);
+        $encoded_variant = urlencode($key);
+
         // Save the variant locally in case we want to access it
         // before we send the response (when it won't be in $_COOKIE)
         $this->variant = $variant;

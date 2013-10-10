@@ -28,14 +28,19 @@ class CookieSessionSpec extends ObjectBehavior
 
     function it_loads_variant_from_cookie_if_available() {
         $cookie = $this->cookieName()->getWrappedObject();
-        $_COOKIE[$cookie] = 'catdogbird';
-        $this->get()->shouldBe('catdogbird');
+        $_COOKIE[$cookie] = 'foo=catdogbird';
+        $this->get('foo')->shouldBe('catdogbird');
     }
 
     function it_saves_variant_when_set() {
-        $this->get()->shouldBe(false);
-        $this->put('catdogbird');
-        $this->get()->shouldBe('catdogbird');
+        $this->get('foo')->shouldBe(false);
+        $this->put('foo', 'catdogbird');
+        $this->get('foo')->shouldBe('catdogbird');
+    }
+
+    function it_handles_equal_sign_in_key_and_variant_name() {
+        $this->put('1=1', '2=2');
+        $this->get('1=1')->shouldBe('2=2');
     }
 
 }

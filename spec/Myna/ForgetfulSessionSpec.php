@@ -13,9 +13,9 @@ class ForgetfulSessionSpec extends ObjectBehavior
     }
 
     function it_should_forget_all_data() {
-        $this->get()->shouldBe(false);
-        $this->put('catdogbird');
-        $this->get()->shouldBe(false);
+        $this->get('socks')->shouldBe(false);
+        $this->put('socks', 'catdogbird');
+        $this->get('socks')->shouldBe(false);
     }
 
 }
