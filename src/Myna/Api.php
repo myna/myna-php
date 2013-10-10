@@ -31,24 +31,42 @@ class Api {
     /**
      * Record a view of a variant.
      *
+     * @param String apiKey. The API Key
      * @param String experimentUuid. The UUID of the experiment
      * @param String variant. The ID of the variant that was viewed.
      */
-    public function view($experimentUuid, $variant) {
-        $url = "http:{$this->apiRoot}/v2/experiment/{$experimentUuid}/record?variant={$variant}";
-        return $this->parse_response(file_get_contents($url));
+    public function view($apiKey, $experimentUuid, $variant) {
+        $url = "http:{$this->apiRoot}/v2/experiment/{$experimentUuid}/record?typename=view&variant={$variant}";
+        $opts = array(
+            'http'=>array(
+                'method'=>"GET",
+                'header'=>"Authorization: ApiKey {$apiKey}\r\n"
+            )
+        );
+        $context = stream_context_create($opts);
+
+        return $this->parse_response(file_get_contents($url, false, $context));
     }
 
     /**
      * Record a reward for a variant.
      *
+     * @param String apiKey. The API Key
      * @param String experimentUuid. The UUID of the experiment
      * @param String variant. The name of the variant that was rewarded.
      * @param Doulbe amount. The amount of the reward between 0.0 and 1.0. Defaults to 1.0.
      */
-    public function reward($experimentUuid, $variant, $amount = 1.0) {
-        $url = "http:{$this->apiRoot}/v2/experiment/{$experimentUuid}/record?variant={$variant}&amount={$amount}";
-        return $this->parse_response(file_get_contents($url));
+    public function reward($apiKey, $experimentUuid, $variant, $amount = 1.0) {
+        $url = "http:{$this->apiRoot}/v2/experiment/{$experimentUuid}/record?typename=reward&variant={$variant}&amount={$amount}";
+        $opts = array(
+            'http' => array(
+                'method' => "GET",
+                'header' => "Authorization: ApiKey {$apiKey}\r\n"
+            )
+        );
+        $context = stream_context_create($opts);
+
+        return $this->parse_response(file_get_contents($url, false, $context));
     }
 
 

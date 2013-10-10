@@ -30,7 +30,15 @@ class ApiSpec extends ObjectBehavior
     function it_should_get_an_updated_experiment_on_view() {
         $deployment = $this->getDeployment()->getWrappedObject();
         $experiment = $deployment->experiments[0];
-        $updated = $this->view($experiment->uuid, $experiment->variants['default']->id);
+        $updated = $this->view($deployment->apiKey, $experiment->uuid, $experiment->variants['default']->id);
+        $updated->shouldHaveType('\Myna\Data\Experiment');
+        $updated->uuid->shouldBe($experiment->uuid);
+    }
+
+    function it_should_get_an_updated_experiment_on_reward() {
+        $deployment = $this->getDeployment()->getWrappedObject();
+        $experiment = $deployment->experiments[0];
+        $updated = $this->reward($deployment->apiKey, $experiment->uuid, $experiment->variants['default']->id);
         $updated->shouldHaveType('\Myna\Data\Experiment');
         $updated->uuid->shouldBe($experiment->uuid);
     }
