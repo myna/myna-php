@@ -20,9 +20,9 @@ class Experiment {
      */
     public function suggest() {
         if($this->sticky) {
-            $variant = $this->session->get('view');
-            if($variant && $this->experiment->variant($variant)) {
-                return $this->experiment->variant($variant);
+            $variantId = $this->session->get('view');
+            if($variantId && $this->experiment->variant($variantId)) {
+                return $this->experiment->variant($variantId);
             } else {
                 return $this->getAndSaveSuggestion();
             }
@@ -66,8 +66,8 @@ class Experiment {
 
     protected function getAndSaveSuggestion() {
         $variant = $this->experiment->suggest();
-        $this->api->view($this->apiKey, $this->uuid, $variant);
-        $this->session->put('view', $variant);
+        $this->api->view($this->apiKey, $this->uuid, $variant->id);
+        $this->session->put('view', $variant->id);
         return $variant;
     }
 
