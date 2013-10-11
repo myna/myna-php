@@ -5,27 +5,6 @@
  */
 class CookieSession implements Session {
 
-    /** Splits key and value */
-    public static $kvDelimiter = '=';
-    /** Splits key/value pairs */
-    public static $pairDelimiter = ':';
-
-    /** Split a string into an Array using $kvDelimiter and $pairDelimiter */
-    public static function stringToArray($string) {
-        $result = array();
-        $kvs = explode($pairDelimiter, $string);
-
-        foreach($kvs as $kv) {
-            $k_v = explode($kvDelimiter, $kv);
-            $key = url_decode($k_v[0]);
-            $value = url_decode($k_v[1]);
-            $result[$key] = $value;
-        }
-
-        return $result;
-    }
-
-
     /**
      * Construct a CookieSession.
      *
