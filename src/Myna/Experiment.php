@@ -42,8 +42,8 @@ class Experiment {
      * @param String variantId. The ID of the Variant to view.
      */
     public function view($variantId) {
-        $api.view($this->apiKey, $this->uuid, $variantId);
-        $this->session.put('view', $variantId);
+        $this->api->view($this->apiKey, $this->uuid, $variantId);
+        $this->session->put('view', $variantId);
     }
 
     /**
@@ -53,12 +53,12 @@ class Experiment {
      * @param Double amount. The amount of reward to give, between 0.0 and 1.0.
      */
     public function reward($amount = 1.0) {
-        if($this->session.get('reward')) {
+        if($this->session->get('reward')) {
             // We have already rewarded this variant. Do nothing.
         } else {
-            $variant = $session.get('view');
+            $variant = $this->session->get('view');
             if($variant) {
-                $api.reward($this->apiKey, $this->uuid, $variant, $amount);
+                $this->api->reward($this->apiKey, $this->uuid, $variant, $amount);
             }
         }
     }
