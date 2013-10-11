@@ -15,7 +15,11 @@ class ExperimentSpec extends ObjectBehavior
     function let($settings, $variant1, $variant2) {
         $uuid = "347cbe53-ad85-423b-9b88-765b99571e0b";
         $id = "Test Experiment";
-        $variants= array($variant1, $variant2);
+
+        $variant1->id = 'variant1';
+        $variant2->id = 'variant2';
+
+        $variants = array($variant1->id => $variant1, $variant2->id => $variant2);
 
         $this->beConstructedWith($uuid, $id, $settings, $variants);
     }
@@ -37,5 +41,13 @@ class ExperimentSpec extends ObjectBehavior
         $variant2->weight = 0.3;
 
         $this->totalWeight()->shouldBe(1.0);
+    }
+
+    function it_returns_expected_variant_given_name() {
+        $v1 = $this->variant('variant1');
+        $v1->id->shouldBe('variant1');
+        $v2 = $this->variant('variant2');
+        $v2->id->shouldBe('variant2');
+        $this->variant('foo')->shouldBe(false);
     }
 }

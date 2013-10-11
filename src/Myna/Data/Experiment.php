@@ -27,7 +27,7 @@ class Experiment {
     * @param $uuid: String
     * @param $id: String
     * @param $settings: Setting
-    * @param $variants: Array[Variant]
+    * @param $variants: Array[String, Variant]
     */
   public function __construct($uuid, $id, $settings, $variants) {
     $this->uuid = $uuid;
@@ -45,7 +45,7 @@ class Experiment {
       $total = $this->totalWeight();
       $random = (mt_rand() / mt_getrandmax());
 
-      foreach($this->variants as $variant) {
+      foreach($this->variants as $id => $variant) {
           $total -= $variant->weight;
           if($total <= $random) {
               return $variant;
@@ -55,9 +55,18 @@ class Experiment {
       return false;
   }
 
+  /**
+   * Get a Variant gives its ID, or false if no variant exists.
+   *
+   * @return Variant or false
+   */
+  public function variant($id) {
+      return \Myna\Arr::get($this->variants, $id, false);
+  }
+
   function totalWeight() {
       $total = 0.0;
-      foreach($this->variants as $variant) {
+      foreach($this->variants as $id => $variant) {
           $total += $variant->weight;
       }
       return $total;

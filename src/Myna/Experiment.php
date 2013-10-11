@@ -1,27 +1,33 @@
-<?php
+<?php namespace Myna;
 
 class Experiment {
 
-    public function __construct($experiment, $session, $api, $sticky = true) {
+    public function __construct($experiment, $session, $api, $apiKey, $sticky = true) {
         $this->experiment = $experiment;
         $this->session = $session;
         $this->api = $api;
         $this->sticky = $sticky;
+        $this->uuid = $experiment->uuid;
+        $this->apiKey = $apiKey;
     }
 
+    /**
+     * Suggest a variant to display to the user. If this is a sticky
+     * experiment and a variant has already been suggested, the same
+     * variant is returned.
+     *
+     * @return Variant
+     */
     public function suggest() {
-
         if($this->sticky) {
-            $variant = $session.get();
-            if($variant) {
-                return $variant;
+            $variant = $this->session->get('view');
+            if($variant && $this->experiment->variant($variant)) {
+                return $this->experiment->variant($variant);
             } else {
+                return $this->getAndSaveSuggestion();
             }
         } else {
-            $variant = $experiment.suggest();
-            // Need to remember the variant for later rewarding
-            $session.put($variant);
-            return $variant;
+            return $this->getAndSaveSuggestion();
         }
     }
 
@@ -33,20 +39,35 @@ class Experiment {
      * replace any previously suggested variant in the cache, and will
      * be rewarded on call to reward.
      *
-     * @param (Variant or String) variantOrId. The Variant or the ID of the Variant to view.
+     * @param String variantId. The ID of the Variant to view.
      */
-    public function view($variantOrId) {
-
+    public function view($variantId) {
+        $api.view($this->apiKey, $this->uuid, $variantId);
+        $this->session.put('view', $variantId);
     }
 
+    /**
+     * Reward the previously viewed or suggested variant. If no
+     * variant has been viewed or suggested, does nothing.
+     *
+     * @param Double amount. The amount of reward to give, between 0.0 and 1.0.
+     */
     public function reward($amount = 1.0) {
-
+        if($this->session.get('reward')) {
+            // We have already rewarded this variant. Do nothing.
+        } else {
+            $variant = $session.get('view');
+            if($variant) {
+                $api.reward($this->apiKey, $this->uuid, $variant, $amount);
+            }
+        }
     }
 
 
     protected function getAndSaveSuggestion() {
-        $variant = $this->experiment.suggest();
-        $this->session.put($variant);
+        $variant = $this->experiment->suggest();
+        $this->api->view($this->apiKey, $this->uuid, $variant);
+        $this->session->put('view', $variant);
         return $variant;
     }
 

@@ -6,5 +6,6 @@
     "bin-dir": "bin"
   },
   "autoload": {
-    "psr-0": {"Myna\\": "src/"}}
+    "psr-0": {"Myna\\": "src/"}
+  }
 }
