@@ -5,6 +5,10 @@
  */
 class CookieSession implements Session {
 
+    /** We store an in-memory session so we can query values before
+     * any cookies have been received.*/
+    protected $session = array();
+
     /**
      * Construct a CookieSession.
      *
@@ -21,25 +25,29 @@ class CookieSession implements Session {
     public function get($key) {
         $variant = false;
 
-        if(isset($_COOKIE[$this->cookieName()])) {
-            $variant = $_COOKIE[$this->cookieName()];
-            $this->variant = $variant;
+        if(Arr::get($this->session, $key, false)) {
+            $variant = $this->session[$key];
+        } elseif(isset($_COOKIE[$this->cookieName()])) {
+            $cookie = $_COOKIE[$this->cookieName()];
+            $array = StringMap::stringToArray($cookie);
 
-        } elseif(isset($this->variant)) {
-            $variant = $this->variant;
+            $variant = Arr::get($array, $key, false);
         }
 
         return $variant;
     }
 
     public function put($key, $variant) {
-        $encoded_key = urlencode($key);
-        $encoded_variant = urlencode($key);
+        if(isset($_COOKIE[$this->cookieName()])) {
+            $cookie = $_COOKIE[$this->cookieName()];
+            $array = StringMap::stringToArray($cookie);
 
-        // Save the variant locally in case we want to access it
-        // before we send the response (when it won't be in $_COOKIE)
-        $this->variant = $variant;
-        setCookie($this->cookieName(), $variant, time() + $this->cookie_life);
+            $this->session = array_merge($array, $this->session);
+        }
+
+        $this->session[$key] = $variant;
+        $cookie = StringMap::arrayToString($this->session);
+        setCookie($this->cookieName(), $cookie, time() + $this->cookie_life);
     }
 
     /**

@@ -43,6 +43,14 @@ class CookieSessionSpec extends ObjectBehavior
         $this->get('1=1')->shouldBe('2=2');
     }
 
+    function it_prefers_put_value_over_cookie_value() {
+        $cookie = $this->cookieName()->getWrappedObject();
+        $_COOKIE[$cookie] = 'foo=catdogduck';
+        $this->put('foo', 'catdogbird');
+        $this->get('foo')->shouldBe("catdogbird");
+
+    }
+
 }
 
 ?>
