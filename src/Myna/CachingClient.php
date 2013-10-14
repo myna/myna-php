@@ -10,8 +10,10 @@ class CachingClient extends Client {
             return new CookieSession($expt->uuid);
         };
 
-        $loader = function($deploymentUuid) {
-            return $api.getDeployment();
+        $api = new Api($uuid, '//api.mynaweb.com/');
+
+        $loader = function($deploymentUuid) use ($api) {
+            return json_encode($api->getDeployment());
         };
         $cache = new FileCache($cachePath, $loader);
 
@@ -20,8 +22,8 @@ class CachingClient extends Client {
 
     public function __construct($deploymentUuid, $sessionBuilder, $cache) {
         $this->cache = $cache;
-        $deployment = $cache.get($deploymentUuid);
-        super($deployment, $sessionBuilder);
+        $deployment = \Myna\Data\Deployment::fromArray(json_decode($cache->get($deploymentUuid), true));
+        parent::__construct($deployment, $sessionBuilder);
     }
 
 }

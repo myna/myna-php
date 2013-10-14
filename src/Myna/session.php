@@ -22,7 +22,7 @@ interface Session {
      * Puts the given Variant name into the Session
      *
      * @param String key. The key the variant name is stored under.
-     * @param String variant. The variant name.
+     * @param String variant. The variant ID.
      */
     public function put($key, $variant);
 
