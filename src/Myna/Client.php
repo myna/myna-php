@@ -2,7 +2,22 @@
 
 class Client {
 
-    public function __construct($deploymentUuid, $api, $sessionBuilder) {
+    /**
+     * Construct a Client from a Deployment
+     *
+     * @param \Myna\Data\Deployment deployment
+     * @return \Myna\Client
+     */
+    public static function fromDeployment($deployment) {
+        $api = new Api($deployment->uuid, $deployment->apiRoot);
+        $sessionBuilder = function($expt) {
+            return new CookieSession($expt->uuid);
+        };
+
+        return new Client($api, $sessionBuilder);
+    }
+
+    public function __construct($api, $sessionBuilder) {
         $this->api = $api;
         $this->deployment = $this->api.getDeployment();
         $this->experiments = array();
@@ -10,7 +25,7 @@ class Client {
         foreach ($this->deployment->experiments as $expt) {
             $experiment = new Experiment(
                 $expt,
-                $sessionBuilder(),
+                $sessionBuilder($expt),
                 $this->api,
                 $this->deployment->apiKey,
                 $expt->sticky()
