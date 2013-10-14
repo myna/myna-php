@@ -9,17 +9,16 @@ class Client {
      * @return \Myna\Client
      */
     public static function fromDeployment($deployment) {
-        $api = new Api($deployment->uuid, $deployment->apiRoot);
         $sessionBuilder = function($expt) {
             return new CookieSession($expt->uuid);
         };
 
-        return new Client($api, $sessionBuilder);
+        return new Client($deployment, $sessionBuilder);
     }
 
-    public function __construct($api, $sessionBuilder) {
-        $this->api = $api;
-        $this->deployment = $this->api.getDeployment();
+    public function __construct($deployment, $sessionBuilder) {
+        $this->deployment = $deployment;
+        $this->api = new Api($deployment->uuid, $deployment->apiRoot);
         $this->experiments = array();
 
         foreach ($this->deployment->experiments as $expt) {
