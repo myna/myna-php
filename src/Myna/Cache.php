@@ -1,4 +1,4 @@
-<?php
+<?php namespace Myna;
 
 /**
  * A Cache stores experiment data (aka a deployment) in some kind of
@@ -10,9 +10,10 @@ interface Cache {
      * Retrieve experiment data, possibly blocking (making a network
      * request) to do son.
      *
-     * return Array An array mapping String UUIDs to \Myna\Data\Experiment
+     * @param String $key. The key for the cached data.
+     * @return String The cached data.
      */
-    public function get();
+    public function get($key);
 
 }
 
