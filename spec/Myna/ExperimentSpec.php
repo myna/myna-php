@@ -57,6 +57,6 @@ class ExperimentSpec extends ObjectBehavior
     }
 
     function it_raises_an_error_if_reward_outside_range() {
-
+        $this->shouldThrow('\InvalidArgumentException')->duringReward(-1.0);
     }
 }
