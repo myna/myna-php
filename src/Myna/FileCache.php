@@ -5,14 +5,14 @@ class FileCache {
     public static $delimiter = ':';
 
     public static function parse($data) {
-        list($expiry_time, $data) = explode(FileCache::$delimiter, $data, 1);
+        list($expiry_time, $data) = explode(FileCache::$delimiter, $data, 2);
 
         return array(intval($expiry_time), $data);
     }
 
     /**
      * @param String path. The location to store cached data
-     * @param () -> String loader. A function to loader data if the cache is stale or doesn't exist.
+     * @param String -> String loader. A function to load data if the cache is stale or doesn't exist. Accepts the key and returns the data.
      * @param Integer ttl. The time-to-live, in seconds, for a cached object. After this time it will be reloaded. Defaults to 15 minutes.
      */
     public function __construct($path, $loader, $ttl = 900) {
@@ -48,7 +48,7 @@ class FileCache {
         // TODO: Fix thundering herd issue here.
         $expiry_time = time() + $this->ttl;
         $loader = $this->loader;
-        $data = $loader();
+        $data = $loader($key);
         $full_data = $expiry_time . FileCache::$delimiter . $data;
         $full_path = "{$this->path}/{$key}";
         file_put_contents($full_path, $full_data, LOCK_EX);
