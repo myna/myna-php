@@ -13,7 +13,7 @@ $deploymentUuid = 'ae15f7c0-df1f-11e2-bfc7-7c6d628b25f7';
 $client = \Myna\Myna::init($deploymentUuid);
 $suggestion = $client->suggest($experimentId);
 
-echo "<p>Suggestion is {$suggestion}</p>";
+echo "<p>Suggestion is {$suggestion->name}</p>";
 ?>
 </body>
 </html>

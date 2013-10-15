@@ -34,15 +34,15 @@ class Client {
     }
 
     public function suggest($exptId) {
-        $this->experiments[$exptId]->suggest();
+        return $this->experiments[$exptId]->suggest();
     }
 
     public function view($exptId, $variantId) {
-        $this->experiments[$exptId]->view($variantId);
+        return $this->experiments[$exptId]->view($variantId);
     }
 
     public function reward($exptId, $amount = 1.0) {
-        $this->experiments[$exptId]->reward($amount);
+        return $this->experiments[$exptId]->reward($amount);
     }
 
 }
