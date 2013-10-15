@@ -64,6 +64,13 @@ class Experiment {
       return \Myna\Arr::get($this->variants, $id, false);
   }
 
+  /**
+   * True if this experiment is sticky. False otherwise.
+   */
+  public function is_sticky() {
+      return $this->settings->is_sticky();
+  }
+
   function totalWeight() {
       $total = 0.0;
       foreach($this->variants as $id => $variant) {

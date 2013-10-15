@@ -18,6 +18,13 @@ class Settings {
       $this->nodes = $nodes;
   }
 
+  /**
+   * Returns true if the setting indicate this experiment is sticky.
+   */
+  public function is_sticky() {
+      $myna = \Myna\Arr::get_nested($this->nodes, array('myna', 'web', 'sticky'), false);
+  }
+
 }
 
 ?>

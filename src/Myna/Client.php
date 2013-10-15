@@ -27,9 +27,9 @@ class Client {
                 $sessionBuilder($expt),
                 $this->api,
                 $this->deployment->apiKey,
-                $expt->sticky()
+                $expt->is_sticky()
             );
-            $this->experiments[$expt.id] = $experiment;
+            $this->experiments[$expt->id] = $experiment;
         }
     }
 
