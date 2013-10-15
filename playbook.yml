@@ -12,8 +12,6 @@
       apt: package=php5-xsl state=present
     - name: install curl
       apt: package=curl state=present
-    - name: upgrade any old packages
-      apt: upgrade=dist
     - name: install Composer
       shell: creates=/vagrant/composer.phar curl -sS https://getcomposer.org/installer | php -- --install-dir=/vagrant
     - name: install project dependencies
