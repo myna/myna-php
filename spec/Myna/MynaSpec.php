@@ -24,6 +24,19 @@ class MynaSpec extends ObjectBehavior
 
     function it_should_initialize_a_client_ftw() {
         $deploymentUuid = 'ae15f7c0-df1f-11e2-bfc7-7c6d628b25f7';
-        \Myna\Myna::init($deploymentUuid);
+        $client = \Myna\Myna::init($deploymentUuid);
+        $client->suggest('single');
+        $client->reward('single');
     }
+
+    function it_should_allow_multiple_clients_using_same_deployment() {
+        $deploymentUuid = 'ae15f7c0-df1f-11e2-bfc7-7c6d628b25f7';
+        $c1 = \Myna\Myna::init($deploymentUuid);
+        $c2 = \Myna\Myna::init($deploymentUuid);
+        $c1->suggest('single');
+        $c2->suggest('single');
+        $c1->reward('single');
+        $c2->reward('single');
+    }
+
 }
