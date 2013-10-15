@@ -8,6 +8,8 @@
       apt: package=git state=present
     - name: install PHP 5
       apt: package=php5-cli state=present
+    - name: install PHP 5 XSL extension (for PHPDoc)
+      apt: package=php5-xsl state=present
     - name: install curl
       apt: package=curl state=present
     - name: install Composer

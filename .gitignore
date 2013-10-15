@@ -3,4 +3,5 @@ composer.lock
 composer.phar
 .vagrant
 vagrant_ansible_inventory_default
-bin/phpspec
+bin/
+doc/
