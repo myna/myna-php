@@ -22,6 +22,10 @@ To run the tests:
 
 Vagrant is not very reliable. Different versions of Vagrant and Virtualbox work together more or less well. If you cannot run the ansible deployment successfully, the following command will do so manually. You must have the VM running first (via `vagrant up`).
 
-`ansible-playbook --inventory-file ./vagrant_ansible_inventory_default playbook.yml -u vagrant -k`
+`ansible-playbook --inventory-file ./vagrant_ansible_inventory_default playbook.yml -u vagrant --private-key ~/.vagrant.d/insecure_private_key`
 
-The password is `vagrant`.
+If you have a SSH error, you can debug via
+
+`ansible all --inventory-file ./vagrant_ansible_inventory_default -m ping -vvvv -u vagrant --private-key ~/.vagrant.d/insecure_private_key`
+
+The error is usually an existing entry in `~/.ssh/known_hosts`.
