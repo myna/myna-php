@@ -134,3 +134,8 @@ class SplClassLoader
         }
     }
 }
+
+$loader = new SplClassLoader('Myna', __DIR__);
+$loader->register();
+
+?>
