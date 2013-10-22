@@ -17,5 +17,7 @@ class ArrSpec extends ObjectBehavior
         $array = array('a' => array('b' => array('c' => 'bingo!')));
         $keys = array('a', 'b', 'd');
         assert(\Myna\Arr::get_nested($array, $keys, false) === false);
+        $keys = array('a', 'g');
+        assert(\Myna\Arr::get_nested($array, $keys, false) === false);
     }
 }
