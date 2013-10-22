@@ -3,6 +3,8 @@
 class Experiment {
 
     public function __construct($experiment, $session, $api, $apiKey, $sticky = true) {
+        Log::debug('new \Myna\Experiment', $experiment, $session, $api, $apiKey, $sticky);
+
         $this->experiment = $experiment;
         $this->session = $session;
         $this->api = $api;
