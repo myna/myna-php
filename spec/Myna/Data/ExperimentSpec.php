@@ -50,4 +50,13 @@ class ExperimentSpec extends ObjectBehavior
         $v2->id->shouldBe('variant2');
         $this->variant('foo')->shouldBe(false);
     }
+
+    function it_returns_boolean_for_is_sticky() {
+        // Initialise from real data
+        $deploymentUuid = 'ae15f7c0-df1f-11e2-bfc7-7c6d628b25f7';
+        $api = new \Myna\Api($deploymentUuid);
+        $deployment = $api->getDeployment();
+        $experiment = $deployment->experiments[1];
+        assert(is_bool($experiment->is_sticky()) === true);
+    }
 }

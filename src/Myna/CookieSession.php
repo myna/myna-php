@@ -17,12 +17,20 @@ class CookieSession implements Session {
      * @param Integer The lifetime of the cookie, in seconds. Added to time() whenever a cookie is set. Defaults to one year.
      */
     public function __construct($uuid, $cookie_base_name = "Myna", $cookie_life = 31536000) {
+        Log::debug('new \Myna\CookieSession', $uuid, $cookie_base_name, $cookie_life);
+
         $this->uuid = $uuid;
         $this->cookie_base_name = $cookie_base_name;
         $this->cookie_life = $cookie_life;
     }
 
     public function get($key) {
+        Log::debug("\Myna\CookieSession->get", $key);
+
+        Log::debug("CookieSession cookieName is", $this->cookieName());
+        Log::debug("CookieSession in-memory session is", $this->session);
+        Log::debug("CookieSession _COOKIE is", $_COOKIE);
+
         $variant = false;
 
         if(Arr::get($this->session, $key, false)) {
@@ -34,6 +42,7 @@ class CookieSession implements Session {
             $variant = Arr::get($array, $key, false);
         }
 
+        Log::debug("CookieSession variant is", $variant);
         return $variant;
     }
 

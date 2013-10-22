@@ -10,7 +10,15 @@ class Myna {
 
     public static function var_dump_to_string($var, &$output, $prefix="") {
         if(is_string($var)) {
-            return $var;
+            $output .= $prefix.$var;
+        } elseif(is_numeric($var)) {
+            $output .= $prefix.strval($var);
+        } elseif(is_bool($var)) {
+            $output .= $prefix.($var ? "true" : "false");
+        } elseif(is_object($var)) {
+            $output .= $prefix.get_class($var);
+        } elseif(is_null($var)){
+            $output .= $prefix."NULL";
         } else {
           foreach($var as $key=>$value) {
               if(is_array($value)) {
@@ -24,6 +32,7 @@ class Myna {
     }
 
     public static function init($deploymentUuid, $cachePath = '/tmp') {
+        Log::debug("\Myna\Myna::init", $deploymentUuid, $cachePath);
         return CachingClient::fromDeploymentUuid($deploymentUuid, $cachePath);
     }
 
