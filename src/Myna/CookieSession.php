@@ -25,7 +25,7 @@ class CookieSession implements Session {
     }
 
     public function get($key) {
-        Log::debug("\Myna\CookieSession->get", $key);
+        Log::info("\Myna\CookieSession->get", $key);
 
         Log::debug("CookieSession cookieName is", $this->cookieName());
         Log::debug("CookieSession in-memory session is", $this->session);
@@ -42,7 +42,7 @@ class CookieSession implements Session {
             $variant = Arr::get($array, $key, false);
         }
 
-        Log::debug("CookieSession variant is", $variant);
+        Log::info("CookieSession variant is", $variant);
         return $variant;
     }
 

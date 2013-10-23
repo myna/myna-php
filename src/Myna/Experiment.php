@@ -21,14 +21,19 @@ class Experiment {
      * @return Variant
      */
     public function suggest() {
+        Log::info('\Myna\Experiment->suggest');
+
         if($this->sticky) {
             $variantId = $this->session->get('view');
             if($variantId && $this->experiment->variant($variantId)) {
+                Log::info('Returning existing suggestion', $variantId);
                 return $this->experiment->variant($variantId);
             } else {
+                Log::info('Returning new suggestion (sticky)');
                 return $this->getAndSaveSuggestion();
             }
         } else {
+            Log::info('Returning new suggestion (non-sticky)');
             return $this->getAndSaveSuggestion();
         }
     }
