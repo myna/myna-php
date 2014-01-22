@@ -1,7 +1,11 @@
 myna-php
 ========
 
-A [Myna](http://mynaweb.com/) client for PHP 5.3+
+A [Myna](http://mynaweb.com/) client for PHP 5.3+. See [here](http://help.mynaweb.com/php).
+
+## Documentation
+
+Full documentation is on [the Myna site](http://help.mynaweb.com/php).
 
 ## Testing
 
@@ -24,8 +28,6 @@ Vagrant is not very reliable. Different versions of Vagrant and Virtualbox work 
 
 `ansible-playbook --inventory-file ./vagrant_ansible_inventory_default playbook.yml -u vagrant --private-key ~/.vagrant.d/insecure_private_key`
 
-If you have a SSH error, you can debug via
+If you have a SSH error it is usually an out-of-date entry in `~/.ssh/known_hosts`.
 
 `ansible all --inventory-file ./vagrant_ansible_inventory_default -m ping -vvvv -u vagrant --private-key ~/.vagrant.d/insecure_private_key`
-
-The error is usually an existing entry in `~/.ssh/known_hosts`.

@@ -1,1 +1,2 @@
-./bin/phpdoc -d src -t doc
+./bin/phpdoc.php -d src -t doc
+rsync --progress -a -e "ssh -q" doc/ admin@help.mynaweb.com:/srv/help.mynaweb.com/public/htdocs/php/api
