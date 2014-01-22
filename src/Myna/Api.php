@@ -77,6 +77,12 @@ class Api {
      * @return Array or true
      */
     function parse_response($data) {
+        if($data === false) {
+          // There was a network error
+          $err = error_get_last();
+          Myna::error("Myna\Api.parse_response", "There was a network error", $err);
+        }
+
         $json = json_decode($data, true);
         if(is_null($json))
             Myna::error("Myna\Api.parse_response", "Response from server is not JSON.", $data);
