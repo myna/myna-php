@@ -60,16 +60,23 @@ class Experiment {
      * @param Double amount. The amount of reward to give, between 0.0 and 1.0.
      */
     public function reward($amount = 1.0) {
+        Log::info('\Myna\Experiment->reward');
         if($amount < 0.0 || $amount > 1.0) {
             throw new \InvalidArgumentException("Reward amount must be in 0.0 to 1.0. Received $amount");
         }
 
         if($this->session->get('reward')) {
             // We have already rewarded this variant. Do nothing.
+            Log::info('Asked to reward but we have already rewarded');
         } else {
             $variant = $this->session->get('view');
             if($variant) {
+                if($this->sticky) {
+                    $this->session->put('reward', $variant);
+                }
                 $this->api->reward($this->apiKey, $this->uuid, $variant, $amount);
+            } else {
+                Log::info('Asked to reward but no variant has been viewed');
             }
         }
     }
