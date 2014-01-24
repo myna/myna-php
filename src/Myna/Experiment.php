@@ -21,14 +21,19 @@ class Experiment {
      * @return Variant
      */
     public function suggest() {
+        Log::info('\Myna\Experiment->suggest');
+
         if($this->sticky) {
             $variantId = $this->session->get('view');
             if($variantId && $this->experiment->variant($variantId)) {
+                Log::info('Returning existing suggestion', $variantId);
                 return $this->experiment->variant($variantId);
             } else {
+                Log::info('Returning new suggestion (sticky)');
                 return $this->getAndSaveSuggestion();
             }
         } else {
+            Log::info('Returning new suggestion (non-sticky)');
             return $this->getAndSaveSuggestion();
         }
     }
@@ -55,16 +60,23 @@ class Experiment {
      * @param Double amount. The amount of reward to give, between 0.0 and 1.0.
      */
     public function reward($amount = 1.0) {
+        Log::info('\Myna\Experiment->reward');
         if($amount < 0.0 || $amount > 1.0) {
             throw new \InvalidArgumentException("Reward amount must be in 0.0 to 1.0. Received $amount");
         }
 
         if($this->session->get('reward')) {
             // We have already rewarded this variant. Do nothing.
+            Log::info('Asked to reward but we have already rewarded');
         } else {
             $variant = $this->session->get('view');
             if($variant) {
+                if($this->sticky) {
+                    $this->session->put('reward', $variant);
+                }
                 $this->api->reward($this->apiKey, $this->uuid, $variant, $amount);
+            } else {
+                Log::info('Asked to reward but no variant has been viewed');
             }
         }
     }

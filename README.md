@@ -7,6 +7,10 @@ A [Myna](http://mynaweb.com/) client for PHP 5.3+. See [here](http://help.mynawe
 
 Full documentation is on [the Myna site](http://help.mynaweb.com/php).
 
+## Development
+
+This repository uses the [Git flow](http://nvie.com/posts/a-successful-git-branching-model/) branching model. Development is done on the `develop` branch (the default branch) and releases from the `master` branch.
+
 ## Testing
 
 There is a [Vagrant](http://vagrantup.com/) configuration for testing.

@@ -36,6 +36,8 @@ class Api {
      * @param String variant. The ID of the variant that was viewed.
      */
     public function view($apiKey, $experimentUuid, $variant) {
+        Log::info('\Myna\Api->view', $apiKey, $experimentUuid, $variant);
+
         $url = "http:{$this->apiRoot}/v2/experiment/{$experimentUuid}/record?typename=view&variant={$variant}";
         $opts = array(
             'http'=>array(
@@ -57,6 +59,8 @@ class Api {
      * @param Doulbe amount. The amount of the reward between 0.0 and 1.0. Defaults to 1.0.
      */
     public function reward($apiKey, $experimentUuid, $variant, $amount = 1.0) {
+        Log::info('\Myna\Api->reward', $apiKey, $experimentUuid, $variant);
+
         $url = "http:{$this->apiRoot}/v2/experiment/{$experimentUuid}/record?typename=reward&variant={$variant}&amount={$amount}";
         $opts = array(
             'http' => array(
